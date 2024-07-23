@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Update Page</title>
+<style>
+  body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .loading-container {
+    text-align: center;
+    color: white;
+  }
+
+  .loader {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="loading-container">
+  <div class="loader"></div>
+  <div class="loading-text" id="loadingText">Mise à jour en cours...</div>
+</div>
+
+<script>
+  // Fonction pour récupérer les données utilisateur depuis le localStorage
+  function getUserData() {
+    return JSON.parse(localStorage.getItem('userData')) || {};
+  }
+
+  // Fonction pour sauvegarder les données utilisateur dans le localStorage
+  function saveUserData(userData) {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  // Fonction pour appliquer la mise à jour
+  function applyUpdate() {
+    const userData = getUserData();
+
+    // Assurer que la clé 'argent' existe dans les données utilisateur
+    if (typeof userData.argent === 'undefined') {
+      userData.argent = 0;
+    }
+
+    // Ajouter 1000 à la valeur actuelle de 'argent'
+    userData.argent += 1000;
+
+    // Sauvegarder les données mises à jour dans localStorage
+    saveUserData(userData);
+
+    // Optionnel : rediriger vers la page principale après la mise à jour
+    setTimeout(function() {
+      window.location.href = "index.html";
+    }, 2000); // Attendre 2 secondes avant la redirection pour permettre à l'utilisateur de voir le message
+  }
+
+  // Appliquer la mise à jour lorsque la page est chargée
+  window.onload = applyUpdate;
+</script>
+</body>
+</html>
